@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Test Website</title>
+</head>
+<body>
+    <!-- Contains everything in the site. The "contents", if you will -->
+    <div class="container">
+        <!-- The header of the website -->
+        <div class="header">
+            <h1>Welcome.</h1>
+            <p>This is a test site for HTML/CSS/JavaScript.</p>
+        </div>
+        <div class="content">
+            <!-- Main Button -->
+            <p>Click the button below.</p>
+            <div class="break"></div>
+            <p id="mainLabel"></p>
+            <div class="break"></div>
+            <button type="button" class="mainbutton" onclick="onClick()">Click Me!</button>
+            <div class="break"></div>
+
+            <!-- Purchase Buttons, hopefully -->
+            <p id="cost1Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(1)" id="effect1Label"></button>
+            <div class="break"></div>
+            <p id="cost2Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(2)" id="effect2Label"></button>
+            <div class="break"></div>
+            <p id="cost3Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(3)" id="effect3Label"></button>
+        </div>
+    </div>
+
+    <!-- Load the JavaScript file -->
+    <script src="function.js"></script>
+</body>
+</html>
