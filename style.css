@@ -51,7 +51,16 @@ p {
     justify-content: center;
 }
 
-.break {
+.contentblock {
+    display: flex;
+    flex-wrap: wrap;
+    width: 45%;
+    justify-content: center;
+    border: 5px solid grey; /* Temporary */
+    margin: 1%;
+}
+
+.break { /* Breaks a line in a flexbox. Probably not efficient but.. it works. */
     flex-basis: 100%;
     height: 0;
 }
@@ -67,7 +76,7 @@ p {
 
 .buybutton {
     margin-top: 12px;
-    width: 200px;
+    width: auto;
     height: 30px;
     font-size: 16px;
     font-family: 'JetBrains Mono', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;

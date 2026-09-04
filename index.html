@@ -15,19 +15,32 @@
         </div>
         <div class="content">
             <!-- Main Button -->
-            <p>Click the button below.</p>
+            <p style="margin-bottom: 0px;">Click the button below.</p>
             <div class="break"></div>
-            <p id="mainLabel"></p>
+            <p id="mainLabel1" style="margin-bottom: 3px"></p>
             <div class="break"></div>
-            <button type="button" class="mainbutton" onclick="onClick()">Click Me!</button>
+            <p id="mainLabel2" style="margin-top: 3px;"></p>
+            <div class="break"></div>
+            <button type="button" class="mainbutton" onclick="onClick()" id="clickLabel"></button>
+            <div class="break"></div>
+            <button type="button" class="buybutton" onclick="buyAll()">BUY ALL</button>
             <div class="break"></div>
 
             <!-- Purchase Buttons, hopefully -->
-            <p id="cost1Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(1)" id="effect1Label"></button>
-            <div class="break"></div>
-            <p id="cost2Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(2)" id="effect2Label"></button>
-            <div class="break"></div>
-            <p id="cost3Label"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade(3)" id="effect3Label"></button>
+            <div class="contentblock">
+                <p id="cost1aLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('1a')" id="effect1aLabel"></button>
+                <div class="break"></div>
+                <p id="cost2aLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('2a')" id="effect2aLabel"></button>
+                <div class="break"></div>
+                <p id="cost3aLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('3a')" id="effect3aLabel"></button>
+            </div>
+            <div class="contentblock">
+                <p id="cost1bLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('1b')" id="effect1bLabel"></button>
+                <div class="break"></div>
+                <p id="cost2bLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('2b')" id="effect2bLabel"></button>
+                <div class="break"></div>
+                <p id="cost3bLabel"></p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('3b')" id="effect3bLabel"></button>
+            </div>
         </div>
     </div>
 

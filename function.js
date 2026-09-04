@@ -1,62 +1,118 @@
 //On Startup
 let clicks = 0;
-//Upgrade Variables
-let upg1cost = 10;
-let upg1bought = 0;
-let upg2cost = 100;
-let upg2bought = 0;
-let upg3cost = 10000;
-let upg3bought = 0;
+let clickPower = 1;
+let clicksPerSec = 0;
+//Click Power Upgrade Variables
+let upg1aCost = 10;
+let upg1aBought = 0;
+let upg2aCost = 100;
+let upg2aBought = 0;
+let upg3aCost = 10000;
+let upg3aBought = 0;
+//Clicks/s Upgrade Variables
+let upg1bCost = 25;
+let upg1bBought = 0;
+let upg2bCost = 500;
+let upg2bBought = 0;
+let upg3bCost = 30000;
+let upg3bBought = 0;
 
 setDisplay();
 
 //Basic Click & Displays
 function onClick() {
-    clicks += Math.pow((upg1bought + 1) * (upg2bought + 1), (upg3bought / 10) + 1);
+    clicks += clickPower;
     setDisplay();
 }
 
-// Run a function every 20.1seconds
+// Run a function every .1 seconds
 const intervalId = setInterval(() => {
-    clicks += Math.pow((upg1bought + 1) * (upg2bought + 1), (upg3bought / 10) + 1);
+    clickPower = Math.pow((upg1aBought + 1) * (upg2aBought + 1), (upg3aBought / 10) + 1);
+    clicksPerSec = Math.pow(upg1bBought  * (upg2bBought + 1), (upg3bBought / 10) + 1);
+    clicks += clicksPerSec / 10;
     setDisplay();
 }, 100);
 
 
 function setDisplay() {
-    document.getElementById("mainLabel").innerHTML = "Clicks: " + String(Math.round(clicks));
-    document.getElementById("cost1Label").innerHTML = "Cost: " + String(upg1cost);
-    document.getElementById("effect1Label").innerHTML = "[BUY] +" + String(upg1bought + 1) + " Clicks";
-    document.getElementById("cost2Label").innerHTML = "Cost: " + String(upg2cost);
-    document.getElementById("effect2Label").innerHTML = "[BUY] x" + String(upg2bought + 1) + " Clicks";
-    document.getElementById("cost3Label").innerHTML = "Cost: " + String(upg3cost);
-    document.getElementById("effect3Label").innerHTML = "[BUY] ^" + String((upg3bought / 10) + 1) + " Clicks";
+    document.getElementById("mainLabel1").innerHTML = "Clicks: " + String(Math.round(clicks));
+    document.getElementById("mainLabel2").innerHTML = "Clicks/s: " + String(Math.round(clicksPerSec));
+    document.getElementById("clickLabel").innerHTML = "+" + String(Math.round(clickPower)) + " Clicks";
+    //Click Power Displays
+    document.getElementById("cost1aLabel").innerHTML = "Cost: " + String(upg1aCost);
+    document.getElementById("effect1aLabel").innerHTML = "[BUY] +" + String(upg1aBought + 1) + " Click Power";
+    document.getElementById("cost2aLabel").innerHTML = "Cost: " + String(upg2aCost);
+    document.getElementById("effect2aLabel").innerHTML = "[BUY] x" + String(upg2aBought + 1) + " Click Power";
+    document.getElementById("cost3aLabel").innerHTML = "Cost: " + String(upg3aCost);
+    document.getElementById("effect3aLabel").innerHTML = "[BUY] ^" + String((upg3aBought / 10) + 1) + " Click Power";
+    //Clicks/s Displays
+    document.getElementById("cost1bLabel").innerHTML = "Cost: " + String(upg1bCost);
+    document.getElementById("effect1bLabel").innerHTML = "[BUY] +" + String(upg1bBought) + " Clicks/s";
+    document.getElementById("cost2bLabel").innerHTML = "Cost: " + String(upg2bCost);
+    document.getElementById("effect2bLabel").innerHTML = "[BUY] x" + String(upg2bBought + 1) + " Clicks/s";
+    document.getElementById("cost3bLabel").innerHTML = "Cost: " + String(upg3bCost);
+    document.getElementById("effect3bLabel").innerHTML = "[BUY] ^" + String((upg3bBought / 10) + 1) + " Clicks/s";
 }
 
 function buyUpgrade(ID) {
-    if (ID == 1) {
-        if (clicks >= upg1cost) {
-            clicks -= upg1cost;
-            upg1cost = Math.floor(upg1cost * 1.2);
-            upg1bought++;
+    //Click Power
+    if (ID == '1a') {
+        if (clicks >= upg1aCost) {
+            clicks -= upg1aCost;
+            upg1aCost = Math.floor(upg1aCost * 1.2);
+            upg1aBought++;
         }
     }
 
-    if (ID == 2) {
-        if (clicks >= upg2cost) {
-            clicks -= upg2cost;
-            upg2cost = Math.floor(upg2cost * 1.25);
-            upg2bought++;
+    if (ID == '2a') {
+        if (clicks >= upg2aCost) {
+            clicks -= upg2aCost;
+            upg2aCost = Math.floor(upg2aCost * 1.25);
+            upg2aBought++;
         }
     }
 
-    if (ID == 3) {
-        if (clicks >= upg3cost) {
-            clicks -= upg3cost;
-            upg3cost = Math.floor(upg3cost * 5);
-            upg3bought++;
+    if (ID == '3a') {
+        if (clicks >= upg3aCost) {
+            clicks -= upg3aCost;
+            upg3aCost = Math.floor(upg3aCost * 5);
+            upg3aBought++;
+        }
+    }
+
+    //Clicks/s
+    if (ID == '1b') {
+        if (clicks >= upg1bCost) {
+            clicks -= upg1bCost;
+            upg1bCost = Math.floor(upg1bCost * 1.25);
+            upg1bBought++;
+        }
+    }
+
+    if (ID == '2b') {
+        if (clicks >= upg2bCost) {
+            clicks -= upg2bCost;
+            upg2bCost = Math.floor(upg2bCost * 1.3);
+            upg2bBought++;
+        }
+    }
+
+    if (ID == '3b') {
+        if (clicks >= upg3bCost) {
+            clicks -= upg3bCost;
+            upg3bCost = Math.floor(upg3bCost * 6);
+            upg3bBought++;
         }
     }
 
     setDisplay();
 }
+
+function buyAll() {
+        buyUpgrade('1a');
+        buyUpgrade('2a');
+        buyUpgrade('3a');
+        buyUpgrade('1b');
+        buyUpgrade('2b');
+        buyUpgrade('3b');
+    }
