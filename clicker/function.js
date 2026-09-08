@@ -39,18 +39,18 @@ function setDisplay() {
     document.getElementById("mainLabel2").innerHTML = "Clicks/s: " + formatNumber(clicksPerSec);
     document.getElementById("clickLabel").innerHTML = "+" + formatNumber(clickPower) + " Clicks";
     //Click Power Displays
-    document.getElementById("cost1aLabel").innerHTML = "Cost: " + String(upg1aCost);
+    document.getElementById("cost1aLabel").innerHTML = "Cost: " + formatNumber(upg1aCost);
     document.getElementById("effect1aLabel").innerHTML = "[BUY] +" + String(upg1aBought + 1) + " Click Power";
-    document.getElementById("cost2aLabel").innerHTML = "Cost: " + String(upg2aCost);
+    document.getElementById("cost2aLabel").innerHTML = "Cost: " + formatNumber(upg2aCost);
     document.getElementById("effect2aLabel").innerHTML = "[BUY] x" + String(upg2aBought + 1) + " Click Power";
-    document.getElementById("cost3aLabel").innerHTML = "Cost: " + String(upg3aCost);
+    document.getElementById("cost3aLabel").innerHTML = "Cost: " + formatNumber(upg3aCost);
     document.getElementById("effect3aLabel").innerHTML = "[BUY] ^" + String((upg3aBought / 10) + 1) + " Click Power";
     //Clicks/s Displays
-    document.getElementById("cost1bLabel").innerHTML = "Cost: " + String(upg1bCost);
+    document.getElementById("cost1bLabel").innerHTML = "Cost: " + formatNumber(upg1bCost);
     document.getElementById("effect1bLabel").innerHTML = "[BUY] +" + String(upg1bBought) + " Clicks/s";
-    document.getElementById("cost2bLabel").innerHTML = "Cost: " + String(upg2bCost);
+    document.getElementById("cost2bLabel").innerHTML = "Cost: " + formatNumber(upg2bCost);
     document.getElementById("effect2bLabel").innerHTML = "[BUY] x" + String(upg2bBought + 1) + " Clicks/s";
-    document.getElementById("cost3bLabel").innerHTML = "Cost: " + String(upg3bCost);
+    document.getElementById("cost3bLabel").innerHTML = "Cost: " + formatNumber(upg3bCost);
     document.getElementById("effect3bLabel").innerHTML = "[BUY] ^" + String((upg3bBought / 10) + 1) + " Clicks/s";
 }
 
