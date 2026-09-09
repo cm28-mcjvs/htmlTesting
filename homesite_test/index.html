@@ -2,14 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Basic site styling -->
         <link rel="stylesheet" href="style.css">
+        <!-- Image styling -->
+        <link rel="stylesheet" href="images.css">
         <title>[Name]'s Site</title>
     </head>
     <body>
         <div class="header">
             <h1>Welcome</h1>
-            <p>This is a test site for HTML/CSS/JavaScript.</p>
-            <p>Unfortunately, no custom images will be used.</p>
+            <p>This is a test homepage for HTML/CSS/JavaScript.</p>
         </div>
 
         <!-- Contains everything in the site. The "contents", if you will -->
@@ -18,19 +21,25 @@
 
             <!-- The navbar. Sits on the left & contains the site links. -->
             <div class="nav">
-                <h2><u>Navigation</u></h2>
-                <button class="navbutton" style="--color-main: lightcoral; --color-hover: indianred;">Button</button>
-                <button class="navbutton" style="--color-main: peachpuff; --color-hover: orange;">Button</button>
-                <button class="navbutton" style="--color-main: lemonchiffon; --color-hover: goldenrod;">Button</button>
-                <button class="navbutton" style="--color-main: palegreen; --color-hover: mediumseagreen;">Button</button>
-                <button class="navbutton" style="--color-main: lightskyblue; --color-hover: royalblue;">Button</button>
-                <button class="navbutton" style="--color-main: plum; --color-hover: mediumpurple;">Button</button>
-                <button class="navbutton" style="--color-main: lightpink; --color-hover: hotpink;">Button</button>
+                <h2>Navigation</h2>
+                <button class="navbutton">Home</button>
+                <button class="navbutton">About</button>
+                <button class="navbutton">Projects</button>
+                <button class="navbutton">Blog</button>
             </div>
 
             <!-- The main content of the page. Paragraphs, images, etc. -->
             <div class="content">
-                <p>This is the content. Is this cool?</p>
+                <img src="graphics/placeholder-avatar.jpg" alt="Default Profile Picture" class="pfp" width="100px" height=100px>
+                <h3 style="margin: 30px 0px 0px 24px; font-size: clamp(1.5rem, 2vw, 2rem)">Welcome to my page!</h3>
+                <p>
+                    This is the content. There may be text AND images here,
+                    showcasing me, <strong>the user</strong>!
+                </p>
+                <p>
+                    This site is mobile responsive! Don't believe me? Resize
+                    your window and watch this site transform!
+                </p>
             </div>
         </div>
     </body>
