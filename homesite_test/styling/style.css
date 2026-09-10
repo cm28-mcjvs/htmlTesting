@@ -72,23 +72,25 @@ strong {
 }
 
 .navbutton {
-    --color-hover: var(--site-color);
-    width: 100%;
-    border: none;
-    border-left: 5px solid var(--color-hover);
+    display: block;
+    width: calc(100% - 5px);
+    height: 24px;
+    border-left: 5px solid var(--site-color);
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    height: 36px;
+    padding: 8px 0px 8px 0px;
     /* Button Text */
     font-family: 'JetBrains Mono', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 16px;
     color: white;
+    text-decoration: none;
+    text-align: center;
     /* For Transition */
     transition-duration: 0.25s;
 }
 
 .navbutton:hover {
-    background-color: rgb(from var(--color-hover) r g b / 60%);
+    background-color: rgb(from var(--site-color) r g b / 60%);
     color: black;
 }
 
@@ -133,7 +135,6 @@ strong {
     }
 
     .navbutton {
-        width: 25%;
-        padding: 0px;
+        width: calc(25% - 5px);
     }
 }
