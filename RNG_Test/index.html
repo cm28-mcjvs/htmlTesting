@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>RNG Test</title>
+</head>
+<body>
+    <!-- Contains everything in the site. The "contents", if you will -->
+    <div class="container">
+        <div class="content">
+            <h1>RNG Testing</h1>
+            <div class="break"></div>
+            <!-- Variable Displays n Such -->
+            <p style="margin-bottom: 4px">Coins: 0</p>
+            <div class="break"></div>
+            <p style="margin-top: 4px">Luck: 1x</p>
+            <!-- Main Button -->
+            <div class="contentblock">
+                <button type="button" class="mainbutton" onclick="onClick()" style="margin-top: 10px" id="rollButton">ROLL</button>
+                <div class="break"></div>
+                <p id="lastRollText" style="margin-bottom: 4px">You Rolled: RARITY</p>
+                <div class="break"></div>
+                <p id="bestRollText" style="margin-top: 4px">Best Roll: RARITY</p>
+            </div>
+
+            <!-- Purchase Buttons, hopefully -->
+            <h2>Shop</h2>
+            <div class="contentblock">
+                <p id="cost1Label">Soon</p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('1a')" id="effect1aLabel">Soon</button>
+                <div class="break"></div>
+                <p id="cost2Label">Soon</p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('2a')" id="effect2aLabel">Soon</button>
+                <div class="break"></div>
+                <p id="cost3Label">Soon</p> &nbsp; &nbsp; <button type="button" class="buybutton" onclick="buyUpgrade('3a')" id="effect3aLabel">Soon</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the JavaScript file -->
+    <script src="RNG.js"></script>
+</body>
+</html>
