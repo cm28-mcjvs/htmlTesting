@@ -4,19 +4,32 @@ let lastRollInt; //For comparing later
 let bestRoll = "";
 let bestRollInt; //For comparing later
 
+//Luck -- BEING TESTED
+let luckMulti = 1;
+
+//Coins -- WIP
+let coins = 0;
+
 //Rarities (or what can be rolled)
 //The rarest ones should be on top, the more common ones are last in the list.
-let rarities = ["Godly", "Divine", "Mythic", "Legendary", "Epic", "Rare", "Uncommon", "Common", "Trash", "Garbage"];
+let rarities = ["Eternity", "Infinity", "Transcendent", "Celestial", "Cosmic", "Ethereal", "Superior", "Godly", "Divine", "Exotic", 
+                "Mythic", "Legendary", "Epic", "Rare", "Uncommon", "Common", "Basic", "Trash", "Garbage", "Nothing"];
+
+//This part is purely optional. I only added it for display and it can be deleted with no issue.
+let rarityColors = ["#A6682B", "#503D5C", "#BD7EAB", "#D9C868", "#32216E", "#20405C", "#890304", "#FF0000", "#BAFFFF", "#FF8000",
+                    "#00FFFF", "#FFFF00", "#8000FF", "#0000FF", "#00FF00", "#FFFFFF", "#AAAAAA", "#808080", "#555555", "#404040"];
 
 //Odds (in percentages)
 //LOWEST PERCENTAGE SHOULD GO AT THE TOP
-//The most common item should *can* be listed, but it's only used for the roll displays.
+//The most common item should *should* be listed, BUT it's only used for the roll displays.
 //Default behavior is to just calculate the remaining percentages not used by the other rarities.
-let odds = [0.01, 0.1, 0.5, 1, 3, 5, 10, 20, 25, 35];
+let odds = [0.0001, 0.001, 0.006, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.5, 
+            0.8, 1, 2, 3, 5, 10, 12, 15, 20, 30];
 
-//Roll Cooldown
+//Roll Cooldown & Automation
 let cooldownTime = 1;
 let currentCooldownTime; //The variable that changes as time counts down
+let autoRoll = true;
 
 //Console debug if needed (shouldn't always be true)
 let debugLogs = true;
@@ -32,7 +45,7 @@ window.onload = () => {
 function CheckOdds() {
     //Calculate the total % of all the odds
     let totalOdds = 0;
-    for (let i = 0; i < odds.length; i++) {
+    for (let i = 0; i < odds.length - 1; i++) {
         totalOdds += odds[i];
     }
 
@@ -55,9 +68,9 @@ function Roll() {
     let cumulativeOdds = 0;
 
     //Rolling the number
-    let numberRolled = Math.random() * poolSize;
+    let numberRolled = (Math.random() * (poolSize * (1 / luckMulti)));
     if (debugLogs) {
-        console.log("Number rolled: " + String(numberRolled));
+        console.log(`Number rolled: ${numberRolled} / ${poolSize * (1 / luckMulti)}`);
     }
 
     //Matching rolled number with item odds
@@ -90,19 +103,67 @@ function Roll() {
         bestRoll = lastRoll;
     }
 
-    //Modify texts
-    document.getElementById("lastRollText").innerHTML = "Last Roll: " + lastRoll + ` (${odds[lastRollInt]}%)`;
-    document.getElementById("bestRollText").innerHTML = "Best Roll: " + bestRoll + ` (${odds[bestRollInt]}%)`;
+    //Modify luck
+    luckMulti *= 1.2;
+    document.getElementById("luckText").innerHTML = "Luck: x" + String(Math.round(luckMulti * 10) / 10);
+
+    //Give coins
+    let coinsToGet = Math.floor(Math.pow(2.2, (odds.length - lastRollInt)));
+    coins += coinsToGet;
+    document.getElementById("coinText").innerHTML = "Coins: " + String(Math.round(coins * 1000) / 1000) + ` (+${coinsToGet})`;
+
+    //Modify texts & colors (if custom colors exist)
+    //Get rarity color (if applicable)
+    let rarityColor = (rarityColors[lastRollInt] != null) ? rarityColors[lastRollInt] : "#FFFFFF";
+    //Set rarity glow (if applicable)
+    let rarityGlow = setRarityGlow(rarityColor, lastRollInt);
+    //Set the text for what rarity was rolled, without styling
+    let rarityRolled = lastRoll + ` (${odds[lastRollInt]}%)`;
+    //Join all parts together
+    document.getElementById("lastRollText").innerHTML = "Last Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+
+    //Get rarity color (if applicable)
+    rarityColor = (rarityColors[bestRollInt] != null) ? rarityColors[bestRollInt] : "#FFFFFF";
+    //Set rarity glow (if applicable)
+    rarityGlow = setRarityGlow(rarityColor, bestRollInt);
+    //Set the text for what rarity was rolled, without styling
+    rarityRolled = bestRoll + ` (${odds[bestRollInt]}%)`;
+    //Join all parts together
+    document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`; 
+}
+
+function setRarityGlow(rarityColor, roll) {
+    if (rarityColors[roll] == null) {
+        return; //Skips adding glow if no color exists
+    }
+    if (roll < 15) {
+        return `text-shadow: 0 0 10px ${rarityColor}`;
+    }
+    else if (roll < 10) {
+        return `text-shadow: 0 0 10px ${rarityColor}, text-shadow: 0 0 20px ${rarityColor}`;
+    }
+    else if (roll < 5) {
+        return `text-shadow: 0 0 10px ${rarityColor}, text-shadow: 0 0 20px ${rarityColor}, text-shadow: 0 0 30px ${rarityColor}`;
+    }
+    else {
+        return "";
+    }
 }
 
 // Runs function every .1 seconds
 const intervalId = setInterval(() => {
+    //Run cooldown timer
     if (currentCooldownTime > 0) {
         currentCooldownTime -= 0.1;
     }
 
+    //Run autoroll if possible
+    if (currentCooldownTime <= 0.01 && autoRoll) {
+        Roll();
+    }
+
     //Set Button Text
-    if (currentCooldownTime > 0.01){
+    if (currentCooldownTime > 0.01) {
         document.getElementById("rollButton").innerHTML = `ROLL (${Math.round(currentCooldownTime * 10) / 10}s)`;
     }
     else {
