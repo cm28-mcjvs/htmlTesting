@@ -26,10 +26,13 @@ let rarityColors = ["#A6682B", "#503D5C", "#BD7EAB", "#D9C868", "#32216E", "#204
 let odds = [0.0001, 0.001, 0.006, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.5, 
             0.8, 1, 2, 3, 5, 10, 12, 15, 20, 30];
 
-//Roll Cooldown & Automation
+//Roll Cooldown
 let cooldownTime = 1;
 let currentCooldownTime; //The variable that changes as time counts down
+
+//Settings Options
 let autoRoll = true;
+let percentOdds = true;
 
 //Console debug if needed (shouldn't always be true)
 let debugLogs = true;
@@ -85,7 +88,7 @@ function Roll() {
                 console.log("Item rolled: " + rarities[i]);
             }
         }
-        cumulativeOdds += chance + 1; //The +1 SHOULD avoid any overlap.
+        cumulativeOdds += chance; //The +1 SHOULD avoid any overlap.
     }
 
     //Selects the most common item if no others were rolled
@@ -112,24 +115,9 @@ function Roll() {
     coins += coinsToGet;
     document.getElementById("coinText").innerHTML = "Coins: " + String(Math.round(coins * 1000) / 1000) + ` (+${coinsToGet})`;
 
-    //Modify texts & colors (if custom colors exist)
-    //Get rarity color (if applicable)
-    let rarityColor = (rarityColors[lastRollInt] != null) ? rarityColors[lastRollInt] : "#FFFFFF";
-    //Set rarity glow (if applicable)
-    let rarityGlow = setRarityGlow(rarityColor, lastRollInt);
-    //Set the text for what rarity was rolled, without styling
-    let rarityRolled = lastRoll + ` (${odds[lastRollInt]}%)`;
-    //Join all parts together
-    document.getElementById("lastRollText").innerHTML = "Last Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
 
-    //Get rarity color (if applicable)
-    rarityColor = (rarityColors[bestRollInt] != null) ? rarityColors[bestRollInt] : "#FFFFFF";
-    //Set rarity glow (if applicable)
-    rarityGlow = setRarityGlow(rarityColor, bestRollInt);
-    //Set the text for what rarity was rolled, without styling
-    rarityRolled = bestRoll + ` (${odds[bestRollInt]}%)`;
-    //Join all parts together
-    document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`; 
+    //Modify texts & colors (if custom colors exist)
+    setTexts();
 }
 
 function setRarityGlow(rarityColor, roll) {
@@ -148,6 +136,29 @@ function setRarityGlow(rarityColor, roll) {
     else {
         return "";
     }
+}
+
+function setTexts() {
+    //Get rarity color (if applicable)
+    let rarityColor = (rarityColors[lastRollInt] != null) ? rarityColors[lastRollInt] : "#FFFFFF";
+    //Set rarity glow (if applicable)
+    let rarityGlow = setRarityGlow(rarityColor, lastRollInt);
+    //Set the text for what rarity was rolled, without styling
+    let rarityRolled;
+    if (percentOdds) rarityRolled = lastRoll + ` (${odds[lastRollInt]}%)`;
+    else rarityRolled = lastRoll + ` (1 in ${Math.round((1 / odds[lastRollInt]) * 100)})`;;
+    //Join all parts together
+    document.getElementById("lastRollText").innerHTML = "Last Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+
+    //Get rarity color (if applicable)
+    rarityColor = (rarityColors[bestRollInt] != null) ? rarityColors[bestRollInt] : "#FFFFFF";
+    //Set rarity glow (if applicable)
+    rarityGlow = setRarityGlow(rarityColor, bestRollInt);
+    //Set the text for what rarity was rolled, without styling
+    if (percentOdds) rarityRolled = bestRoll + ` (${odds[bestRollInt]}%)`;
+    else rarityRolled = bestRoll + ` (1 in ${Math.round((1 / odds[bestRollInt]) * 100)})`;
+    //Join all parts together
+    document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
 }
 
 // Runs function every .1 seconds
@@ -180,4 +191,17 @@ function onClick() {
     else {
         console.warn("Roll on cooldown!");
     }
+}
+
+//This is to toggle the auto-roll
+function toggleAuto() {
+    autoRoll = !autoRoll;
+    document.getElementById("autoButton").innerHTML = (autoRoll) ? "Auto Roll: ON" : "Auto Roll: OFF";
+}
+
+//This will toggle the odds display
+function toggleOdds() {
+    percentOdds = !percentOdds;
+    document.getElementById("oddsButton").innerHTML = (percentOdds) ? "Odds: Percentage" : "Odds: Fraction"
+    setTexts();
 }

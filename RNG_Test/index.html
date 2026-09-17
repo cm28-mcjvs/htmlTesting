@@ -11,17 +11,18 @@
         <div class="content">
             <h1>RNG Testing</h1>
             <div class="break"></div>
-            <!-- Variable Displays n Such -->
-            <p id ="coinText" style="margin-bottom: 4px">Coins: 0</p>
+            <!-- Variable Displays & Toggles -->
+            <p id ="coinText" style="margin-bottom: 4px">Coins: 0</p><p>&nbsp;|&nbsp;</p><p id="luckText" style="margin-bottom: 4px">Luck: 1x</p>
             <div class="break"></div>
-            <p id="luckText" style="margin-top: 4px">Luck: 1x</p>
+            <button type="button" id="autoButton" onclick="toggleAuto()">Auto Roll: ON</button>&nbsp;
+            <button type="button" id="oddsButton" onclick="toggleOdds()">Odds: Percentage</button>
             <!-- Main Button -->
             <div class="contentblock">
                 <button type="button" class="mainbutton" onclick="onClick()" style="margin-top: 10px" id="rollButton">ROLL</button>
                 <div class="break"></div>
-                <p id="lastRollText" style="margin-bottom: 4px">You Rolled: RARITY</p>
+                <p id="lastRollText" style="margin-bottom: 4px; margin-top: 4px; font-size: 24px">You Rolled: RARITY</p>
                 <div class="break"></div>
-                <p id="bestRollText" style="margin-top: 4px">Best Roll: RARITY</p>
+                <p id="bestRollText" style="margin-top: 4px; margin-bottom: 12px; font-size: 24px">Best Roll: RARITY</p>
             </div>
 
             <!-- Purchase Buttons, hopefully -->
