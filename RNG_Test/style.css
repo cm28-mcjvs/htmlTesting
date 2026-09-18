@@ -23,6 +23,37 @@ p {
     font-family: 'JetBrains Mono', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+#bestRollGlow {
+    position: absolute;
+    inset: 295px auto auto auto;
+    font-size: 24px;
+    filter: blur(4px);
+}
+
+#lastRollGlow {
+    position: absolute;
+    inset: 355px auto auto auto;
+    font-size: 32px;
+    filter: blur(4px);
+}
+
+#lastRollGlow2 {
+    position: absolute;
+    inset: 410px auto auto auto;
+    font-size: 20px;
+    filter: blur(4px);
+}
+
+
+@keyframes gradient-flow {
+    0% {
+    	background-position: 0% center;
+  	}
+  	100% {
+    	background-position: 200% center;
+  	}
+}
+
 /* The container that holds everything */
 .container {
     display: flex;
