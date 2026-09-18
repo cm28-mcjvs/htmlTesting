@@ -16,13 +16,15 @@
             <div class="break"></div>
             <button type="button" id="autoButton" onclick="toggleAuto()">Auto Roll: ON</button>&nbsp;
             <button type="button" id="oddsButton" onclick="toggleOdds()">Odds: Percentage</button>
+            <div class="break"></div>
             <!-- Main Button -->
+            <button type="button" class="mainbutton" onclick="onClick()" style="margin-top: 10px" id="rollButton">ROLL</button>
+            <div class="break"></div>
+            <p id="bestRollText" style="margin-top: 4px; margin-bottom: 12px; font-size: 24px">Best Roll: RARITY</p>
             <div class="contentblock">
-                <button type="button" class="mainbutton" onclick="onClick()" style="margin-top: 10px" id="rollButton">ROLL</button>
+                <p id="lastRollText" style="margin-bottom: 4px; margin-top: 16px; font-size: 32px">RARITY</p>
                 <div class="break"></div>
-                <p id="lastRollText" style="margin-bottom: 4px; margin-top: 4px; font-size: 24px">You Rolled: RARITY</p>
-                <div class="break"></div>
-                <p id="bestRollText" style="margin-top: 4px; margin-bottom: 12px; font-size: 24px">Best Roll: RARITY</p>
+                <p id="lastRollOdds" style="margin-bottom: 16px; margin-top: 4px; font-size: 20px">(??%)</p>
             </div>
 
             <!-- Purchase Buttons, hopefully -->

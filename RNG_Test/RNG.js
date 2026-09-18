@@ -124,14 +124,14 @@ function setRarityGlow(rarityColor, roll) {
     if (rarityColors[roll] == null) {
         return; //Skips adding glow if no color exists
     }
-    if (roll < 15) {
-        return `text-shadow: 0 0 10px ${rarityColor}`;
+    if (roll < 5) {
+        return `text-shadow: 0 0 30px ${rarityColor}`;
     }
     else if (roll < 10) {
-        return `text-shadow: 0 0 10px ${rarityColor}, text-shadow: 0 0 20px ${rarityColor}`;
+        return `text-shadow: 0 0 20px ${rarityColor}`;
     }
-    else if (roll < 5) {
-        return `text-shadow: 0 0 10px ${rarityColor}, text-shadow: 0 0 20px ${rarityColor}, text-shadow: 0 0 30px ${rarityColor}`;
+    else if (roll < 15) {
+        return `text-shadow: 0 0 10px ${rarityColor}`;
     }
     else {
         return "";
@@ -145,10 +145,12 @@ function setTexts() {
     let rarityGlow = setRarityGlow(rarityColor, lastRollInt);
     //Set the text for what rarity was rolled, without styling
     let rarityRolled;
-    if (percentOdds) rarityRolled = lastRoll + ` (${odds[lastRollInt]}%)`;
-    else rarityRolled = lastRoll + ` (1 in ${Math.round((1 / odds[lastRollInt]) * 100)})`;;
+    if (percentOdds) rarityRolled = `(${odds[lastRollInt]}%)`;
+    else rarityRolled = `(1 in ${Math.round((1 / odds[lastRollInt]) * 100)})`;;
     //Join all parts together
-    document.getElementById("lastRollText").innerHTML = "Last Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+    document.getElementById("lastRollText").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${lastRoll}</span>`;
+    document.getElementById("lastRollOdds").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+
 
     //Get rarity color (if applicable)
     rarityColor = (rarityColors[bestRollInt] != null) ? rarityColors[bestRollInt] : "#FFFFFF";
