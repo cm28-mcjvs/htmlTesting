@@ -5,25 +5,32 @@ let bestRoll = "";
 let bestRollInt; //For comparing later
 
 //Luck -- BEING TESTED
-let luckMulti = 1;
+let luckMulti = 100000;
 
 //Coins -- WIP
 let coins = 0;
 
 //Rarities (or what can be rolled)
 //The rarest ones should be on top, the more common ones are last in the list.
-let rarities = ["Eternity", "Infinity", "Transcendent", "Celestial", "Cosmic", "Ethereal", "Superior", "Godly", "Divine", "Exotic", 
+let rarities = ["Unity",
+                "Eternity", "Infinity", "Transcendent", "Celestial", "Cosmic", "Ethereal", "Superior", "Godly", "Divine", "Exotic", 
                 "Mythic", "Legendary", "Epic", "Rare", "Uncommon", "Common", "Basic", "Trash", "Garbage", "Nothing"];
 
 //This part is purely optional. I only added it for display and it can be deleted with no issue.
-let rarityColors = ["#A6682B", "#503D5C", "#BD7EAB", "#D9C868", "#32216E", "#20405C", "#890304", "#FF0000", "#BAFFFF", "#FF8000",
+let rarityColors = ["#FFFFFF",
+                    "#A6682B", "#503D5C", "#BD7EAB", "#D9C868", "#32216E", "#20405C", "#890304", "#FF0000", "#BAFFFF", "#FF8000",
                     "#00FFFF", "#FFFF00", "#8000FF", "#0000FF", "#00FF00", "#FFFFFF", "#AAAAAA", "#808080", "#555555", "#404040"];
+
+let gradients = ["linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red)",
+                "none", "none", "none", "none", "none", "none", "none", "none", "none", "none", 
+                "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"];
 
 //Odds (in percentages)
 //LOWEST PERCENTAGE SHOULD GO AT THE TOP
 //The most common item should *should* be listed, BUT it's only used for the roll displays.
 //Default behavior is to just calculate the remaining percentages not used by the other rarities.
-let odds = [0.0001, 0.001, 0.006, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.5, 
+let odds = [0.0001,
+            0.0005, 0.001, 0.006, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.5, 
             0.8, 1, 2, 3, 5, 10, 12, 15, 20, 30];
 
 //Roll Cooldown
@@ -148,8 +155,20 @@ function setTexts() {
     if (percentOdds) rarityRolled = `(${odds[lastRollInt]}%)`;
     else rarityRolled = `(1 in ${Math.round((1 / odds[lastRollInt]) * 100)})`;;
     //Join all parts together
-    document.getElementById("lastRollText").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${lastRoll}</span>`;
-    document.getElementById("lastRollOdds").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+    if (gradients[lastRollInt] == "none") {
+        document.getElementById("lastRollText").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${lastRoll}</span>`;
+        document.getElementById("lastRollOdds").innerHTML = `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+        document.getElementById("lastRollGlow").innerHTML = "";
+        document.getElementById("lastRollGlow2").innerHTML = "";
+    }
+    else {
+        let glowStyle = `background-image: ${gradients[lastRollInt]}; background-clip: text; color: transparent; background-size: 200% auto;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-flow 4s linear infinite;`
+        document.getElementById("lastRollText").innerHTML = `<span style="color: ${rarityColor}; ${glowStyle}">${lastRoll}</span>`;
+        document.getElementById("lastRollGlow").innerHTML = `<span style="${glowStyle}">${lastRoll}</span>`;
+        document.getElementById("lastRollOdds").innerHTML = `<span style="color: ${rarityColor}; ${glowStyle}">${rarityRolled}</span>`;
+        document.getElementById("lastRollGlow2").innerHTML = `<span style="${glowStyle}">${rarityRolled}</span>`;
+    }
 
 
     //Get rarity color (if applicable)
@@ -160,7 +179,17 @@ function setTexts() {
     if (percentOdds) rarityRolled = bestRoll + ` (${odds[bestRollInt]}%)`;
     else rarityRolled = bestRoll + ` (1 in ${Math.round((1 / odds[bestRollInt]) * 100)})`;
     //Join all parts together
-    document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+    if (gradients[bestRollInt] == "none") {
+        document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${rarityGlow}">${rarityRolled}</span>`;
+        document.getElementById("bestRollGlow").innerHTML = "";
+    }
+    else {
+        let glowStyle = `background-image: ${gradients[bestRollInt]}; background-clip: text; color: transparent; background-size: 200% auto;
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: gradient-flow 4s linear infinite;`
+        document.getElementById("bestRollText").innerHTML = "Best Roll: " + `<span style="color: ${rarityColor}; ${glowStyle}">${rarityRolled}</span>`;
+        document.getElementById("bestRollGlow").innerHTML = "Best Roll: " + `<span style="${glowStyle}">${rarityRolled}</span>`;
+    }
+
 }
 
 // Runs function every .1 seconds
