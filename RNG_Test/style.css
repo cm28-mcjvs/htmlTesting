@@ -25,21 +25,21 @@ p {
 
 #bestRollGlow {
     position: absolute;
-    inset: 295px auto auto auto;
+    inset: 300px auto auto auto;
     font-size: 24px;
     filter: blur(4px);
 }
 
 #lastRollGlow {
     position: absolute;
-    inset: 355px auto auto auto;
+    inset: 360px auto auto auto;
     font-size: 32px;
     filter: blur(4px);
 }
 
 #lastRollGlow2 {
     position: absolute;
-    inset: 410px auto auto auto;
+    inset: 425px auto auto auto;
     font-size: 20px;
     filter: blur(4px);
 }
