@@ -21,25 +21,26 @@ h2 {
 p {
     color: whitesmoke;
     font-family: 'JetBrains Mono', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 16px;
 }
 
 #bestRollGlow {
     position: absolute;
-    inset: 300px auto auto auto;
+    inset: 325px auto auto auto;
     font-size: 24px;
     filter: blur(4px);
 }
 
 #lastRollGlow {
     position: absolute;
-    inset: 360px auto auto auto;
+    inset: 385px auto auto auto;
     font-size: 32px;
     filter: blur(4px);
 }
 
 #lastRollGlow2 {
     position: absolute;
-    inset: 425px auto auto auto;
+    inset: 450px auto auto auto;
     font-size: 20px;
     filter: blur(4px);
 }

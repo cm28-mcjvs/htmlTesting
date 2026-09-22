@@ -4,25 +4,26 @@ let lastRollInt; //For comparing later
 let bestRoll = "";
 let bestRollInt; //For comparing later
 
-//Luck -- BEING TESTED
-let luckMulti = 100000;
+//Luck
+let luckMulti = 1;
 
 //Coins -- WIP
 let coins = 0;
+let coinMulti = 1;
 
 //Rarities (or what can be rolled)
 //The rarest ones should be on top, the more common ones are last in the list.
-let rarities = ["The One", "Chromatic", "Eternal", "Unreal", "Unity",
+let rarities = ["True Infinity", "The One", "Chromatic", "Eternal", "Unreal", "Unity",
     "Eternity", "Infinity", "Transcendent", "Celestial", "Cosmic", "Ethereal", "Superior", "Godly", "Divine", "Exotic",
     "Mythic", "Legendary", "Epic", "Rare", "Uncommon", "Common", "Basic", "Trash", "Garbage", "Nothing"];
 
 //This part is purely optional. I only added it for display and it can be deleted with no issue.
-let rarityColors = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF",
+let rarityColors = ["#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF",
     "#A6682B", "#503D5C", "#BD7EAB", "#D9C868", "#32216E", "#20405C", "#890304", "#FF0000", "#BAFFFF", "#FF8000",
     "#00FFFF", "#FFFF00", "#8000FF", "#0000FF", "#00FF00", "#FFFFFF", "#AAAAAA", "#808080", "#555555", "#404040"];
 
 //This will probably take up a LOT of space. But i'm sticking to "10 per line" so...
-let gradients = ["linear-gradient(90deg, white, black, white)", "linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red)", "linear-gradient(90deg, red, orange, yellow, orange, red)", "linear-gradient(90deg, #00FF00, #004400, #00FF00)", "linear-gradient(90deg, #d8ca7d, #63a7c7, #d8ca7d)",
+let gradients = ["linear-gradient(90deg, purple, black, purple)", "linear-gradient(90deg, white, black, white)", "linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red)", "linear-gradient(90deg, red, orange, yellow, orange, red)", "linear-gradient(90deg, #00FF00, #004400, #00FF00)", "linear-gradient(90deg, #d8ca7d, #63a7c7, #d8ca7d)",
     "linear-gradient(90deg, #A6682B, #A6482B, #A6682B)", "linear-gradient(90deg, #813f76, #eb4ac2, #813f76)", "linear-gradient(90deg, #BD7EAB, #FFFFFF, #BD7EAB)", "linear-gradient(90deg, #D9C868, #A59746, #D9C868)", "linear-gradient(90deg, #32216E, #604CAC, #32216E)", "linear-gradient(90deg, #20405C, #386B97, #20405C)", "linear-gradient(90deg, #890304, #5A0000, #890304)", "none", "none", "none",
     "none", "none", "none", "none", "none", "none", "none", "none", "none", "none"];
 
@@ -30,13 +31,16 @@ let gradients = ["linear-gradient(90deg, white, black, white)", "linear-gradient
 //LOWEST PERCENTAGE SHOULD GO AT THE TOP
 //The most common item should *should* be listed, BUT it's only used for the roll displays.
 //Default behavior is to just calculate the remaining percentages not used by the other rarities.
-let odds = [0.000001, 0.0000125, 0.00003, 0.00005, 0.0001,
+let odds = [1/1e306, 0.000001, 0.0000125, 0.00003, 0.00005, 0.0001,
     0.0005, 0.001, 0.006, 0.01, 0.02, 0.03, 0.05, 0.08, 0.1, 0.5,
     0.8, 1, 2, 3, 5, 10, 12, 15, 20, 30];
 
 //Roll Cooldown
-let cooldownTime = 1;
+let cooldownTime = 3;
 let currentCooldownTime; //The variable that changes as time counts down
+
+//Playtime
+let playTime = 0;
 
 //Settings Options
 let autoRoll = true;
@@ -48,9 +52,9 @@ let debugLogs = true;
 //Upgrade Variables
 let upg1Cost = 100;
 let upg1Bought = 0;
-let upg2Cost = 1e4;
+let upg2Cost = 5000;
 let upg2Bought = 0;
-let upg3Cost = 1e5;
+let upg3Cost = 20000;
 let upg3Bought = 0;
 
 //Runs when the page loads, like a Start() function
@@ -124,15 +128,10 @@ function Roll() {
         bestRoll = lastRoll;
     }
 
-    //Modify luck
-    luckMulti *= 1.2;
-    document.getElementById("luckText").innerHTML = "Luck: x" + formatNumber(luckMulti, 1);
-
     //Give coins
-    let coinsToGet = Math.floor(Math.pow(2.2, (odds.length - lastRollInt)));
+    let coinsToGet = (Math.floor(Math.pow(2.2, (odds.length - lastRollInt)))) * coinMulti;
     coins += coinsToGet;
     document.getElementById("coinText").innerHTML = "Coins: " + formatNumber(coins, 0) + ` (+${formatNumber(coinsToGet, 0)})`;
-
 
     //Modify texts & colors (if custom colors exist)
     setTexts(prevBestRoll);
@@ -221,13 +220,23 @@ const intervalId = setInterval(() => {
         Roll();
     }
 
-    //Set Button Text
+    //Set Button & Luck Text
     if (currentCooldownTime > 0.01) {
         document.getElementById("rollButton").innerHTML = `ROLL (${Math.round(currentCooldownTime * 10) / 10}s)`;
     }
     else {
         document.getElementById("rollButton").innerHTML = "ROLL";
     }
+    setDisplay();
+
+    //Update shop-related variables
+    luckMulti = 1.4 ** upg1Bought;
+    coinMulti = upg2Bought + 1;
+    cooldownTime = 3 * ((upg3Bought + 1) ** -0.7);
+
+    //Update playtime
+    playTime += 0.1;
+    document.getElementById("timeText").innerHTML = `Playtime: ${formatNumber(playTime, 0)}s`;
 }, 100);
 
 //This is set to run in the HTML file.
@@ -259,20 +268,25 @@ function toggleOdds() {
 //
 
 function setDisplay() {
-    //Click Power Displays
+    //Main Displays
+    document.getElementById("luckText").innerHTML = "Luck: x" + formatNumber(luckMulti, 1);
+
+    //Shop Displays
     document.getElementById("cost1Label").innerHTML = "Cost: " + formatNumber(upg1Cost, 1);
-    document.getElementById("effect1Label").innerHTML = "[BUY] " + String(upg1Bought + 1) + "x Luck Multi";
+    document.getElementById("effect1Label").innerHTML = "[BUY] " + formatNumber(1.4 ** upg1Bought, 2) + "x Luck Multi";
     document.getElementById("cost2Label").innerHTML = "Cost: " + formatNumber(upg2Cost, 1);
-    document.getElementById("effect2Label").innerHTML = "[BUY] " + String(upg2Bought + 1) + "x Coin Boost";
+    document.getElementById("effect2Label").innerHTML = "[BUY] " + formatNumber(upg2Bought + 1, 2) + "x Coin Boost";
     document.getElementById("cost3Label").innerHTML = "Cost: " + formatNumber(upg3Cost, 1);
-    document.getElementById("effect3Label").innerHTML = "[BUY] " + String((upg3Bought / 10) + 1) + "x Roll Speed";
+    document.getElementById("effect3Label").innerHTML = "[BUY] " + formatNumber((upg3Bought + 1) ** (-0.7), 2) + "x Roll Speed";
 }
 
 function buyUpgrade(ID) {
+    let amtSpent = 0;
     if (ID == '1') {
         if (coins >= upg1Cost) {
             coins -= upg1Cost;
-            upg1Cost = Math.floor(upg1Cost * 1.2);
+            amtSpent = upg1Cost;
+            upg1Cost = Math.floor(upg1Cost * 1.6);
             upg1Bought++;
         }
     }
@@ -280,7 +294,8 @@ function buyUpgrade(ID) {
     if (ID == '2') {
         if (coins >= upg2Cost) {
             coins -= upg2Cost;
-            upg2Cost = Math.floor(upg2Cost * 1.25);
+            amtSpent = upg2Cost;
+            upg2Cost = Math.floor(upg2Cost * 3);
             upg2Bought++;
         }
     }
@@ -288,11 +303,13 @@ function buyUpgrade(ID) {
     if (ID == '3') {
         if (coins >= upg3Cost) {
             coins -= upg3Cost;
-            upg3Cost = Math.floor(upg3Cost * 5);
+            amtSpent = upg3Cost;
+            upg3Cost = Math.floor(upg3Cost * 6);
             upg3Bought++;
         }
     }
 
+    if (amtSpent > 0) document.getElementById("coinText").innerHTML = "Coins: " + formatNumber(coins, 0) + ` (-${formatNumber(amtSpent, 0)})`;
     setDisplay();
 }
 
@@ -310,12 +327,14 @@ function formatNumber(num, precision) {
     let roundedNum;
 
     if (num < 1e9) {
-        roundedNum = Math.round(num * rounding) / rounding;
+        //Some nonsense to add commas between the numbers
+        roundedNum = Math.floor(num * rounding) / rounding;
         if (num >= 1e6) return `${Math.floor(roundedNum / 1e6)},${Math.floor((roundedNum / 1000) % 1000).toString().padStart(3, '0')},${Math.floor(roundedNum % 1000).toString().padStart(3, '0')}`;
         else if (num >= 1e3) return `${Math.floor(roundedNum / 1000)},${(Math.floor(roundedNum % 1000)).toString().padStart(3, '0')}`;
         else return String(roundedNum);
     }
     else {
+        //Scientific notation
         return String(mantissa + "e" + exponent)
     }
 }
